@@ -1,5 +1,4 @@
-enum DrinkSize { 
-  small, medium, large }
+enum DrinkSize { small, medium, large }
 
 abstract class Drink {
   final String name;
@@ -20,6 +19,8 @@ abstract class Drink {
         return basePrice * 1.25;
       case DrinkSize.large:
         return basePrice * 1.5;
+      default: // 👈 تم إضافة هذا السطر لحل المشكلة تماماً وإرضاء الـ Compiler
+        return basePrice;
     }
   }
 
@@ -88,7 +89,6 @@ class Juice extends Drink {
   }
 }
 
-// 6. كلاس الطلب (Order) لإدارة المشروبات وحساب الفاتورة
 class Order {
   final String customerName;
   final List<Drink> _drinks = [];
@@ -99,7 +99,7 @@ class Order {
     _drinks.add(drink);
   }
 
-]  void removeDrink(Drink drink) {
+  void removeDrink(Drink drink) {
     _drinks.remove(drink);
   }
 
@@ -117,28 +117,26 @@ class Order {
     return total;
   }
 
-String receipt() {
-  String output = '';
+  String receipt() {
+    String output = '';
 
-  output += '=== Areisto Coffee ===\n';
-  output += 'Customer: $customerName\n';
+    output += '=== Areisto Coffee ===\n';
+    output += 'Customer: $customerName\n';
 
-  for (var drink in _drinks) {
-    output += '${drink.toString()}\n';
+    for (var drink in _drinks) {
+      output += '${drink.toString()}\n';
+    }
+
+    output += 'Items: $itemsCount\n';
+
+    if (itemsCount > 3) {
+      output += 'Discount Applied: 10% Off!\n';
+    }
+
+    output += 'Total: ${totalPrice.toStringAsFixed(2)} EGP\n';
+    
+    return output;
   }
-
- 
-  output += 'Items: $itemsCount\n';
-
-  if (itemsCount > 3) {
-    output += 'Discount Applied: 10% Off!\n';
-  }
-
-  output += 'Total: ${totalPrice.toStringAsFixed(2)} EGP\n';
-  
-  return output;
-}
-
 }
 
 void main() {
